@@ -27,7 +27,7 @@ export default function ProductMedia({ media }: ProductMediaProps) {
           <Zoom key={selectedImage.url}>
             <WixImage
               mediaIdentifier={selectedImage.url}
-              alt={selectedImage.altText}
+              alt={selectedImage.altText ?? ""}
               width={1000}
               height={1000}
             />
@@ -84,7 +84,9 @@ function MediaPreview({ mediaItem, isSelected, onSelect }: MediaPreviewProps) {
     >
       <WixImage
         mediaIdentifier={imageUrl || resolvedThumbnailUrl}
-        alt={mediaItem.image?.altText || mediaItem.video?.files?.[0].altText}
+        alt={
+          mediaItem.image?.altText ?? mediaItem.video?.files?.[0].altText ?? ""
+        }
         width={100}
         height={100}
         onMouseEnter={onSelect}

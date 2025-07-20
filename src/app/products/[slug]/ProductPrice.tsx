@@ -21,7 +21,7 @@ export default function ProductPrice({
       <span className={cn(hasDiscount && "text-muted-foreground line-through")}>
         {priceData.formatted?.price}
       </span>
-      {hasDiscount && <span>{priceData.formatted?.discountedPrice}</span> }
+      {hasDiscount && <span>{priceData.formatted?.discountedPrice}</span>}
       {product.discount && <DiscountBadge data={product.discount} />}
     </div>
   );

@@ -1,10 +1,9 @@
 import { products } from "@wix/stores";
-import { getwixClient } from "../lib/wix-client.base";
+import { WixClient } from "../lib/wix-client.base";
 import { findVariant } from "../lib/utils";
 import { WIX_STORES_APP_ID } from "../lib/constants";
 
-export async function getCart() {
-  const wixClient = getwixClient();
+export async function getCart(wixClient: WixClient) {
   try {
     return await wixClient.currentCart.getCurrentCart();
   } catch (error) {
@@ -18,18 +17,16 @@ export async function getCart() {
     }
   }
 }
-interface AddToCartValues {
+export interface AddToCartValues {
   product: products.Product;
   selectedOptions: Record<string, string>;
   quantity: number;
 }
 
-export async function addToCart({
-  product,
-  selectedOptions,
-  quantity,
-}: AddToCartValues) {
-  const wixClient = getwixClient();
+export async function addToCart(
+  wixClient: WixClient,
+  { product, selectedOptions, quantity }: AddToCartValues,
+) {
   const selectedVariant = findVariant(product, selectedOptions);
 
   return wixClient.currentCart.addToCurrentCart({
@@ -50,4 +47,28 @@ export async function addToCart({
       },
     ],
   });
+}
+
+export interface updateCartItemQuantityValues {
+  productId: string;
+  newQuantity: number;
+}
+
+export async function updateCartItemQuantity(
+  wixClient: WixClient,
+  { newQuantity, productId }: updateCartItemQuantityValues,
+) {
+  return wixClient.currentCart.updateCurrentCartLineItemQuantity([
+    {
+      _id: productId,
+      quantity: newQuantity,
+    }
+  ])
+}
+
+export async function removeCartItem(
+  wixClient: WixClient,
+  productId: string,
+) {
+  return wixClient.currentCart.removeLineItemsFromCurrentCart([productId]);
 }

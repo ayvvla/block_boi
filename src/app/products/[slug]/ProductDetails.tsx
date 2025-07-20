@@ -17,6 +17,7 @@ import {
   AccordionTrigger,
 } from "@/src/components/ui/accordion";
 import AddToCartButton from "@/src/components/AddToCartButton";
+import BackInStockNotificationButton from "@/src/components/BackInStockNotificationButton";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -101,9 +102,15 @@ export default function ProductDetail({ product }: ProductDetailsProps) {
             product={product}
             selectedOptions={selectedOptions}
             quantity={quantity}
+            disabled={availableQtyExceeded || quantity < 1}
+            className="w-full"
           />
         ) : (
-          "Out of stock"
+          <BackInStockNotificationButton
+            product={product}
+            selectedOptions={selectedOptions}
+            className="w-full"
+          />
         )}
 
         {!!product.additionalInfoSections?.length && (
@@ -121,7 +128,7 @@ export default function ProductDetail({ product }: ProductDetailsProps) {
                       dangerouslySetInnerHTML={{
                         __html: section.description || "",
                       }}
-                      className="prose dark:prose-invert text-sm text-muted-foreground"
+                      className="prose text-sm text-muted-foreground dark:prose-invert"
                     />
                   </AccordionContent>
                 </AccordionItem>

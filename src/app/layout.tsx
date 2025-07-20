@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
+import ReactQueryProvider from "./ReactQueryProvider";
+import { Toaster } from "../components/ui/sonner";
+import { ThemeProvider } from "next-themes";
 // import Footer from "./Footer";
 
 const lora = Lora({
@@ -24,9 +27,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lora.className}>
-        <Navbar />
-        {children}
-        {/* <Footer /> */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          disableTransitionOnChange
+        >
+          <ReactQueryProvider>
+            <Navbar />
+            {children}
+            {/* <Footer /> */}
+          </ReactQueryProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
